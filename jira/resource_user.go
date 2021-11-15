@@ -2,6 +2,7 @@ package jira
 
 import (
 	"fmt"
+
 	jira "github.com/andygrunwald/go-jira"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/pkg/errors"
@@ -20,6 +21,9 @@ func resourceUser() *schema.Resource {
 		Create: resourceUserCreate,
 		Read:   resourceUserRead,
 		Delete: resourceUserDelete,
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
 
 		Schema: map[string]*schema.Schema{
 			"name": &schema.Schema{
