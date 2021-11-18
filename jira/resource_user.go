@@ -8,6 +8,13 @@ import (
 	"github.com/pkg/errors"
 )
 
+var diffOnlyWhenCreate = func(k, old, new string, d *schema.ResourceData) bool {
+	if old == "" {
+		return old == new
+	}
+	return true
+}
+
 // resourceUser is used to define a JIRA issue
 func resourceUser() *schema.Resource {
 	return &schema.Resource{
@@ -20,21 +27,17 @@ func resourceUser() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"email": &schema.Schema{
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: false,
-				DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
-					return true
-				},
+			"email": {
+				Type:             schema.TypeString,
+				Required:         true,
+				ForceNew:         false,
+				DiffSuppressFunc: diffOnlyWhenCreate,
 			},
-			"display_name": &schema.Schema{
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: false,
-				DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
-					return true
-				},
+			"display_name": {
+				Type:             schema.TypeString,
+				Required:         true,
+				ForceNew:         false,
+				DiffSuppressFunc: diffOnlyWhenCreate,
 			},
 		},
 	}
