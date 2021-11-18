@@ -34,7 +34,7 @@ func resourceUser() *schema.Resource {
 			"display_name": &schema.Schema{
 				Type:             schema.TypeString,
 				Optional:         true,
-				ForceNew:         false,
+				ForceNew:         true,
 				DiffSuppressFunc: usernameFallbackSuppressFunc,
 			},
 		},

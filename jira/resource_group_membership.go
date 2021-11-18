@@ -57,7 +57,7 @@ func resourceGroupMembership() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Schema: map[string]*schema.Schema{
-			"accountId": &schema.Schema{
+			"account_id": &schema.Schema{
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
@@ -79,7 +79,7 @@ type GroupMembership struct {
 func resourceGroupMembershipCreate(d *schema.ResourceData, m interface{}) error {
 	config := m.(*Config)
 
-	accountId := d.Get("accountId").(string)
+	accountId := d.Get("account_id").(string)
 	group := d.Get("group").(string)
 
 	groupMembership := new(GroupMembership)
@@ -113,7 +113,7 @@ func resourceGroupMembershipRead(d *schema.ResourceData, m interface{}) error {
 		return errors.Wrap(err, "getting jira group failed")
 	}
 
-	d.Set("accountId", accountId)
+	d.Set("account_id", accountId)
 	d.Set("group", groupname)
 
 	for _, group := range groups.Groups.Items {
@@ -132,7 +132,7 @@ func resourceGroupMembershipDelete(d *schema.ResourceData, m interface{}) error 
 	relativeURL, _ := url.Parse(groupUserAPIEndpoint)
 
 	query := relativeURL.Query()
-	query.Set("accountId", d.Get("accountId").(string))
+	query.Set("account_id", d.Get("accountId").(string))
 	query.Set("groupname", d.Get("group").(string))
 
 	relativeURL.RawQuery = query.Encode()
