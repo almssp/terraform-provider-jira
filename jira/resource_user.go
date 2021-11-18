@@ -31,12 +31,6 @@ func resourceUser() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-			"display_name": &schema.Schema{
-				Type:             schema.TypeString,
-				Optional:         true,
-				ForceNew:         true,
-				DiffSuppressFunc: usernameFallbackSuppressFunc,
-			},
 		},
 	}
 }
@@ -76,16 +70,7 @@ func resourceUserCreate(d *schema.ResourceData, m interface{}) error {
 
 	user := new(jira.User)
 	user.EmailAddress = d.Get("email").(string)
-
-	dn, ok := d.GetOkExists("display_name")
-	user.DisplayName = dn.(string)
-
-	if !ok {
-		user.DisplayName = user.Name
-	}
-
 	createdUser, _, err := config.jiraClient.User.Create(user)
-
 	if err != nil {
 		return errors.Wrap(err, "Request failed")
 	}
@@ -104,7 +89,6 @@ func resourceUserRead(d *schema.ResourceData, m interface{}) error {
 		return errors.Wrap(err, "getting jira user failed")
 	}
 
-	d.Set("display_name", user.DisplayName)
 	d.Set("email", user.EmailAddress)
 	return nil
 }

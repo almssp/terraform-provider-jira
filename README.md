@@ -230,7 +230,7 @@ resource "jira_group" "tf_group" {
 // User "bot" will be a Member of "Terraform Managed"
 
 resource "jira_group_membership" "gm_1" {
-  username = "bot"
+  account_id = "${jira_user.demo_user.id}"
   group = "${jira_group.tf_group.name}"
 }
 
@@ -254,9 +254,7 @@ resource "jira_project_membership" "group_member" {
 }
 
 resource "jira_user" "demo_user" {
-  name = "bot"
   email = "bot@example.org"
-  display_name = "The Bot"
 }
 
 resource "jira_webhook" "demo_hook" {
