@@ -24,11 +24,17 @@ func resourceUser() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: false,
+				DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
+					return true
+				},
 			},
 			"display_name": &schema.Schema{
 				Type:     schema.TypeString,
-				Optional: true,
+				Required: true,
 				ForceNew: false,
+				DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
+					return true
+				},
 			},
 		},
 	}
