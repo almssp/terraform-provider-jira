@@ -8,13 +8,6 @@ import (
 	"github.com/pkg/errors"
 )
 
-func usernameFallbackSuppressFunc(k, old, new string, d *schema.ResourceData) bool {
-	if new == "" {
-		return old == d.Get("name")
-	}
-	return old == new
-}
-
 // resourceUser is used to define a JIRA issue
 func resourceUser() *schema.Resource {
 	return &schema.Resource{
@@ -30,6 +23,11 @@ func resourceUser() *schema.Resource {
 			"email": &schema.Schema{
 				Type:     schema.TypeString,
 				Required: true,
+				ForceNew: false,
+			},
+			"display_name": &schema.Schema{
+				Type:     schema.TypeString,
+				Optional: true,
 				ForceNew: false,
 			},
 		},
@@ -75,6 +73,7 @@ func resourceUserCreate(d *schema.ResourceData, m interface{}) error {
 
 	user := new(jira.User)
 	user.EmailAddress = d.Get("email").(string)
+	user.DisplayName = d.Get("display_name").(string)
 	createdUser, _, err := config.jiraClient.User.Create(user)
 	if err != nil {
 		return errors.Wrap(err, "Request failed")
@@ -95,6 +94,7 @@ func resourceUserRead(d *schema.ResourceData, m interface{}) error {
 	}
 
 	d.Set("email", user.EmailAddress)
+	d.Set("display_name", user.DisplayName)
 	return nil
 }
 
