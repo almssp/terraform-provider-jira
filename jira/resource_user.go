@@ -21,6 +21,7 @@ func resourceUser() *schema.Resource {
 		Create: resourceUserCreate,
 		Read:   resourceUserRead,
 		Delete: resourceUserDelete,
+		Update: noOpsUpdate,
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
@@ -29,10 +30,14 @@ func resourceUser() *schema.Resource {
 			"email": &schema.Schema{
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
+				ForceNew: false,
 			},
 		},
 	}
+}
+
+func noOpsUpdate(d *schema.ResourceData, m interface{}) error {
+	return nil
 }
 
 func getUserByKey(client *jira.Client, accountId string) (*jira.User, *jira.Response, error) {
