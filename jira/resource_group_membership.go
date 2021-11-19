@@ -132,7 +132,7 @@ func resourceGroupMembershipDelete(d *schema.ResourceData, m interface{}) error 
 	relativeURL, _ := url.Parse(groupUserAPIEndpoint)
 
 	query := relativeURL.Query()
-	query.Set("account_id", d.Get("accountId").(string))
+	query.Set("accountId", d.Get("account_id").(string))
 	query.Set("groupname", d.Get("group").(string))
 
 	relativeURL.RawQuery = query.Encode()
