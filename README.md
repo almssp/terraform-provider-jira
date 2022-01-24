@@ -6,6 +6,10 @@ __[Support this project on Patreon](https://www.patreon.com/fourplusone)__
 
 [![CircleCI](https://circleci.com/gh/fourplusone/terraform-provider-jira.svg?style=svg)](https://circleci.com/gh/fourplusone/terraform-provider-jira)
 
+## Workflow
+[![Go](https://github.com/almssp/terraform-provider-jira/actions/workflows/go.yml/badge.svg)](https://github.com/almssp/terraform-provider-jira/actions/workflows/go.yml)
+[![release](https://github.com/almssp/terraform-provider-jira/actions/workflows/release.yml/badge.svg)](https://github.com/almssp/terraform-provider-jira/actions/workflows/release.yml)
+
 ## Data Sources
 
 - Issue Keys from JQL
