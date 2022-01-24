@@ -10,6 +10,7 @@ __[Support this project on Patreon](https://www.patreon.com/fourplusone)__
 
 - Issue Keys from JQL
 - Custom Fields
+- [Jira Find User via query](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-user-search/#api-rest-api-3-user-search-get)
 
 ## Resources
 
@@ -269,6 +270,10 @@ resource "jira_webhook" "demo_hook" {
 
 data "jira_jql" "issues" {
   jql = "project = ${jira_project.project_a.key} ORDER BY key ASC"
+}
+
+data "jira_user" "all" {
+  email = 'you@example.net'
 }
 
 ```

@@ -48,6 +48,7 @@ func Provider() *schema.Provider {
 		DataSourcesMap: map[string]*schema.Resource{
 			"jira_field": resourceField(),
 			"jira_jql":   resourceJQL(),
+			"jira_user":  datasourceUser(), 
 		},
 		ConfigureFunc: providerConfigure,
 	}
