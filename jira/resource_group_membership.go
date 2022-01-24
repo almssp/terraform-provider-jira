@@ -104,7 +104,7 @@ func resourceGroupMembershipCreate(d *schema.ResourceData, m interface{}) error 
 func resourceGroupMembershipRead(d *schema.ResourceData, m interface{}) error {
 	config := m.(*Config)
 
-	components := strings.SplitN(d.Id(), ":", 2)
+	components := strings.SplitN(d.Id(), ",", 2)
 	accountId := components[0]
 	groupname := components[1]
 
