@@ -95,7 +95,7 @@ func resourceGroupMembershipCreate(d *schema.ResourceData, m interface{}) error 
 		return errors.Wrap(err, "Request failed")
 	}
 
-	d.SetId(fmt.Sprintf("%s:%s", accountId, group))
+	d.SetId(fmt.Sprintf("%s,%s", accountId, group))
 
 	return resourceGroupMembershipRead(d, m)
 }
