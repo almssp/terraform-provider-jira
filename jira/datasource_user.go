@@ -3,7 +3,7 @@ package jira
 import (
 	"fmt"
 	"log"
-
+    "time"
 	jira "github.com/andygrunwald/go-jira"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/pkg/errors"
@@ -35,7 +35,25 @@ func getUserByQuery(client *jira.Client, email string) (*[]jira.User, *jira.Resp
 	}
 
 	users := new([]jira.User)
+    //Retries if empty
+    maxtries := 2
+    //First try
 	resp, err := client.Do(req, users)
+    for i := 1 ; i <= maxtries ; i++ {
+
+	    if err != nil || len(*users) > 0 {
+            log.Printf("Iteration Try: %d - Found match for: %s",i, email)
+            break
+        }
+
+        log.Printf("Iteration Try: %d For: %s - Sleeping for 4 seconds",i, email)
+        time.Sleep(4 * time.Second)
+	    resp, err = client.Do(req, users)
+    }
+    if len(*users) < 1 {
+        log.Printf("No user found for %s", email)
+
+    }
 	if err != nil {
 		return nil, resp, jira.NewJiraError(resp, err)
 	}
@@ -54,7 +72,7 @@ func datasourceUserRead(d *schema.ResourceData, m interface{}) error {
 	}
     
     for _, user := range *users {
-        log.Printf("LOOP - %s: %s\n", user.AccountID, user.DisplayName)
+        log.Printf("User found - %s: %s\n", user.AccountID, user.DisplayName)
 	    d.Set("display_name", user.DisplayName)
         d.SetId(user.AccountID)
 	}
