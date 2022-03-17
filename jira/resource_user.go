@@ -102,7 +102,7 @@ func resourceUserRead(d *schema.ResourceData, m interface{}) error {
 		return errors.Wrap(err, "getting jira user failed")
 	}
 
-	d.Set("email", user.EmailAddress)
+	//d.Set("email", user.EmailAddress)
 	d.Set("display_name", user.DisplayName)
 	return nil
 }
